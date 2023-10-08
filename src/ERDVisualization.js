@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import * as joint from 'jointjs';
+// export { ErdEntity } from 'jointjs/lib/shapes/erd'; // Assuming 'erd' is the correct path
 
 function ERDVisualization() {
   const [tables, setTables] = useState([
@@ -21,40 +22,59 @@ function ERDVisualization() {
     createDiagram();
   }, [tables]);
 
-  function createCustomShape(x, y, tableName, entityNames) {
-    const shape = new joint.shapes.basic.Rect({
+  // function createCustomShape(x, y, tableName, entityNames) {
+  //   const shape = new joint.shapes.basic.Rect({
+  //     position: { x, y },
+  //     size: { width: 250, height: 150 },
+  //     attrs: {
+  //       rect: { fill: 'white', stroke: 'black', 'stroke-width': 2 },
+  //       text: { text: tableName, 'font-size': 14, 'font-weight': 'bold' },
+  //     },
+    
+  //   });
+
+  //   let entityNamesArray = [];
+
+  //   // Check if entityNames is a string, then split it
+  //   if (typeof entityNames === 'string') {
+  //     entityNamesArray = entityNames.split(',');
+  //   } else if (Array.isArray(entityNames)) {
+  //     entityNamesArray = entityNames;
+  //   }
+
+  //   const contentText = new joint.shapes.basic.TextBlock({
+  //     position: { x: x + 5, y: y + 30 },
+  //     size: { width: 40, height: 40 },
+  //     attrs: {
+  //       text: {
+  //         text: `Entities:\n${entityNamesArray.join('\n')}`, // Convert back to an array
+  //         'font-size': 12,
+  //       },
+  //     },
+  //   });
+
+  //   shape.embed(contentText);
+  //   return shape;
+  // }
+
+  function createCustomShape(x, y, headerText, bodyText) {
+    // Create a custom headered rectangle shape
+    const shape = new joint.shapes.standard.HeaderedRectangle({
       position: { x, y },
       size: { width: 250, height: 150 },
       attrs: {
         rect: { fill: 'white', stroke: 'black', 'stroke-width': 2 },
-        text: { text: tableName, 'font-size': 14, 'font-weight': 'bold' },
+        header: { fill: '#000000', fillOpacity: 0.1 },
+        body: { fill: '#fe854f', fillOpacity: 0.5 },
+        headerText: { text: headerText, 'font-size': 14 },
+        bodyText: { text: bodyText, 'font-size': 12 },
       },
     });
-
-    let entityNamesArray = [];
-
-    // Check if entityNames is a string, then split it
-    if (typeof entityNames === 'string') {
-      entityNamesArray = entityNames.split(',');
-    } else if (Array.isArray(entityNames)) {
-      entityNamesArray = entityNames;
-    }
-
-    const contentText = new joint.shapes.basic.TextBlock({
-      position: { x: x + 5, y: y + 30 },
-      size: { width: 40, height: 40 },
-      attrs: {
-        text: {
-          text: `Entities:\n${entityNamesArray.join('\n')}`, // Convert back to an array
-          'font-size': 12,
-        },
-      },
-    });
-
-    shape.embed(contentText);
-
+  
     return shape;
   }
+  
+  
 
   function createDiagram() {
     const graph = new joint.dia.Graph();
